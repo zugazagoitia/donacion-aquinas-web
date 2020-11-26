@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html lang="ES">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Alberto Zugazagoitia">
+    <link rel="icon" href="https://www.aquinas.es/static/aquinas/images/favicon.png">
+    <title>Seguimiento Donación Aquinas</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="css/cover.css" rel="stylesheet">
+
+</head>
+
+<body class="text-center" id="gradient" >
+
+    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+        <header class=" mb-auto">
+        </header>
+
+        <script>
+
+            var colors = [[62,35,255],
+                [60,255,60],
+                [255,35,98],
+                [45,175,230],
+                [255,0,255],
+                [255,128,0]];
+
+            var step = 0;
+            //color table indices for:
+            // current color left
+            // next color left
+            // current color right
+            // next color right
+            var colorIndices = [0,1,2,3];
+
+            //transition speed
+            var gradientSpeed = 0.002;
+
+            function updateGradient()
+            {
+
+                if ( $===undefined ) return;
+
+                var c0_0 = colors[colorIndices[0]];
+                var c0_1 = colors[colorIndices[1]];
+                var c1_0 = colors[colorIndices[2]];
+                var c1_1 = colors[colorIndices[3]];
+
+                var istep = 1 - step;
+                var r1 = Math.round(istep * c0_0[0] + step * c0_1[0]);
+                var g1 = Math.round(istep * c0_0[1] + step * c0_1[1]);
+                var b1 = Math.round(istep * c0_0[2] + step * c0_1[2]);
+                var color1 = "rgb("+r1+","+g1+","+b1+")";
+
+                var r2 = Math.round(istep * c1_0[0] + step * c1_1[0]);
+                var g2 = Math.round(istep * c1_0[1] + step * c1_1[1]);
+                var b2 = Math.round(istep * c1_0[2] + step * c1_1[2]);
+                var color2 = "rgb("+r2+","+g2+","+b2+")";
+
+                $('#gradient').css({
+                    background: "-webkit-gradient(linear, left top, right top, from("+color1+"), to("+color2+"))"}).css({
+                    background: "-moz-linear-gradient(left, "+color1+" 0%, "+color2+" 100%)"});
+
+                step += gradientSpeed;
+                if ( step >= 1 )
+                {
+                    step %= 1;
+                    colorIndices[0] = colorIndices[1];
+                    colorIndices[2] = colorIndices[3];
+
+                    //pick two new target color indices
+                    //do not pick the same as the current one
+                    colorIndices[1] = ( colorIndices[1] + Math.floor( 1 + Math.random() * (colors.length - 1))) % colors.length;
+                    colorIndices[3] = ( colorIndices[3] + Math.floor( 1 + Math.random() * (colors.length - 1))) % colors.length;
+
+                }
+            }
+
+            setInterval(updateGradient,10);
+
+        </script>
+
+        <script>
+            total = 500;
+            $.getJSON('https://api.zuga.pw/api/amount', function (data){
+                console.log(data.amount);
+                var percentage = (data.amount*100/total) + '%';
+                console.log(percentage);
+                $('#barra').css('width',percentage);
+                var texto = "Llevamos "+ data.amount+"€ recaudados del total de "+total+"€";
+                $('#dinero').text(texto);
+            });
+        </script>
+        <main role="main" class="inner cover">
+            <h1 class="cover-heading">DONACIONES BANCO DE ALIMENTOS</h1>
+            <p class="lead">Desde el inicio de la crisis sanitaria la demanda de alimentos aumentó más de un 40%. Hoy se atienden a 190.000 beneficiarios a través de 540 entidades benéficas legalmente reconocidas.
+                SEGUIMOS EN EMERGENCIA ALIMENTARIA Y NECESITAMOS DONACIONES URGENTES</p>
+            <p class="lead"></p>
+            <div class="progress">
+                <div id="barra" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+
+            </div>
+            <p class="lead"></p>
+
+            <h4 id="dinero">
+
+            </h4>
+
+
+        </main>
+
+        <footer class="mt-auto">
+
+        </footer>
+    </div>
+
+
+
+
+    <!-- Bootstrap core JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

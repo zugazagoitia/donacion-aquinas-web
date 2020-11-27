@@ -37,7 +37,7 @@
         meta = 500;
         $.getJSON('https://api.zuga.pw/api/amount', function (data) {
             console.log(data.amount);
-            let percentage = (data.amount * 100 / meta) + '%';
+            let percentage = (parseFloat(data.amount) * 100 / meta) + '%';
             console.log(percentage);
             $('#barra').css('width', percentage);
             $('#barra2').text(percentage);
@@ -51,6 +51,7 @@
         });
     </script>
     <main class="inner cover align-self-center animate-bottom" role="main">
+        <img src="https://www.aquinas.es/static/aquinas/images/logo-aquinas.svg" alt="logo aquinas"> <p></p>
         <h1 class="cover-heading">DONACIONES BANCO DE ALIMENTOS</h1>
         <p class="lead">Desde el inicio de la crisis sanitaria la demanda de alimentos aumentó más de un 40%. Hoy se
             atienden a 190.000 beneficiarios a través de 540 entidades benéficas legalmente reconocidas.</p>
